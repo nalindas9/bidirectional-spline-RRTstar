@@ -9,9 +9,9 @@ fig = plt.figure()
 plt.axes()
 plt.xlim(0, 100)
 plt.ylim(0, 100)
-circle1 = plt.Circle((50, 50), radius=20, fill=False)
-circle2 = Ellipse((15, 25), width=15, height= 10, angle=0, fill=False)
-circle3 = Ellipse((80, 30), width=15, height= 10, angle=0, fill=False)
+circle1 = plt.Circle((50, 50), radius=20, facecolor = 'black')
+circle2 = Ellipse((15, 25), width=15, height= 10, angle=0, facecolor = 'black')
+circle3 = Ellipse((80, 30), width=15, height= 10, angle=0, facecolor = 'black')
 
 
 plt.gca().add_patch(circle1)
