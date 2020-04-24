@@ -1,5 +1,5 @@
 """
-RRT for A* Algorithm
+RRT* for Non-Holonomic Mobile Robot
 
 Authors:
 -Nidhi Bhojak
