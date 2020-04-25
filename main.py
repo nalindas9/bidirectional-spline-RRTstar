@@ -8,6 +8,7 @@ Graduate Student pursuing Masters in Robotics,
 University of Maryland, College Park
 """
 import map
+import algo
 import matplotlib.pyplot as plt
 import numpy as np
 import utils
@@ -34,7 +35,22 @@ def main():
   rpm = eval(input('Please enter the RPM for both the wheels in this format - [RPM1,RPM2]:'))
   print("The wheel RPM's you entered for both the wheels are:", rpm)
   print('')
-
+  
+  explored = algo.rrt(start_point, goal_point, clearance)
+  
+  # Plotting the explored nodes and final path
+  points1x = []
+  points1y = []
+  points2x = []
+  points2y = []
+  for point in explored.keys():
+    points1x.append(point[0])
+    points1y.append(point[1])
+    points2x.append(explored[point][0]-point[0])
+    points2y.append(explored[point][1]-point[1])
+  
+  plt.quiver(np.array(points1x), np.array(points1y), np.array(points2x), np.array(points2y), units='xy' ,scale=1, label = 'Explored nodes', color = 'g', width =0.02, headwidth = 1,headlength=0)
+    
   plt.show()
   plt.close()
   
