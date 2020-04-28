@@ -13,8 +13,26 @@ import utils
 XDIM = 10
 YDIM = 10
 EPSILON = 0.2
-NUMNODES = 1000
+NUMNODES = 1800
 plusminus = [1,-1]
+
+explored_nodes = dict()
+
+# Function to generate index given a node
+def index(node):
+  return (node[0], node[1], node[2])
+
+# Function to find the path
+def back_track(node_ind, start_node):
+    print('Backtracking to find the best possible path ...')
+    path = [node_ind]
+    while node_ind != index(start_node):
+      parent = explored_nodes[node_ind]
+      path.insert(0, parent)
+      node_ind = parent
+    print('The path is:', path)
+    print('Backtracking complete.')
+    return path
 
 # Function to calculate the Euclidean distance between 2 points
 def dist(p1,p2):
@@ -31,7 +49,6 @@ def interpolate(p1,p2):
 # Function to implement rrt algo
 # Args: (start point, goal point)
 def rrt(start, goal, clearance):
-  explored_nodes = dict()
   nodes = []
   start = tuple(start)
   explored_nodes[start] = start
@@ -50,7 +67,10 @@ def rrt(start, goal, clearance):
     if utils.check_node(new_node, clearance):
       explored_nodes[new_node] = nearest_node
       nodes.append(new_node)
+    if ((new_node[0] - goal[0]) ** 2 + (new_node[1] - goal[1]) ** 2) <= 0.25 ** 2:
+      print('Found the goal!!!')
+      final_path = back_track(new_node, start)
   
-  return explored_nodes
+  return explored_nodes, final_path
       
           
