@@ -24,9 +24,9 @@ def main():
   start_circle = plt.scatter(start_point[0], start_point[1], c = 'b')
   print('The start point you entered is:', start_point)
   print('')  
-  goal_point = eval(input('Please enter the goal coordinates of the robot in this format - [X_coord, Y_coord]:'))
+  goal_point = eval(input('Please enter the goal coordinates of the robot in this format - [X_coord, Y_coord, Theta]:'))
   while not utils.check_node(goal_point, clearance):
-    goal_point = eval(input('Please enter the goal coordinates of the robot in this format - [X_coord, Y_coord]:'))
+    goal_point = eval(input('Please enter the goal coordinates of the robot in this format - [X_coord, Y_coord, Theta]:'))
   goal_circle = plt.scatter(goal_point[0], goal_point[1], c = 'y')
   print('The goal point you entered is:', goal_point)
   print('')
