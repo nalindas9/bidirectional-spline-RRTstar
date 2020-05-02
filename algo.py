@@ -25,14 +25,25 @@ def index(node):
   return (node[0], node[1], node[2])
 
 # Function to find the path
-def back_track(node_ind, start_node):
+def back_track1(node_ind, start_node):
     print('Backtracking to find the best possible path ...')
     path = [node_ind]
     while node_ind != index(start_node):
-      parent = explored_nodes[node_ind]
+      parent = explored_nodes1[node_ind]
       path.insert(0, parent)
       node_ind = parent
-    print('The path is:', path)
+    #print('The path is:', path)
+    print('Backtracking complete.')
+    return path
+    
+def back_track2(node_ind, start_node):
+    print('Backtracking to find the best possible path ...')
+    path = [node_ind]
+    while node_ind != index(start_node):
+      parent = explored_nodes2[node_ind]
+      path.insert(0, parent)
+      node_ind = parent
+    #print('The path is:', path)
     print('Backtracking complete.')
     return path
 
@@ -98,7 +109,9 @@ def rrt(start, goal, clearance):
     if valid_joint(new_node1,nearest_node3, clearance):
       print('Joint from tree 1 to tree 2 found!!')
       explored_nodes1[nearest_node3] = new_node1 
-      return explored_nodes1, explored_nodes2
+      final_path1 = back_track1(nearest_node3, start1)
+      final_path2 = back_track2(nearest_node3, start2)
+      return explored_nodes1, explored_nodes2, final_path1, final_path2
     else:
       # Tree generation from goal node
       rand2 = random.random()*(XDIM/2)*random.choice(plusminus), random.random()*(YDIM/2)*random.choice(plusminus) 
@@ -121,7 +134,9 @@ def rrt(start, goal, clearance):
     if valid_joint(new_node1,nearest_node3, clearance):
       print('Joint from tree 1 to tree 2 found!!')
       explored_nodes2[nearest_node3] = new_node1 
-      return explored_nodes1, explored_nodes2
+      final_path1 = back_track1(nearest_node3, start1)
+      final_path2 = back_track2(nearest_node3, start2)
+      return explored_nodes1, explored_nodes2, final_path1, final_path2
     """
     # Check if the new node from tree 2 can be joined to tree 1 
     nearest_node4 = nodes1[0]   

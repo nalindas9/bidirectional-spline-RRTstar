@@ -36,9 +36,13 @@ def main():
   print("The wheel RPM's you entered for both the wheels are:", rpm)
   print('')
   
-  explored1, explored2 = algo.rrt(start_point, goal_point, clearance)
+  explored1, explored2, final_path1, final_path2 = algo.rrt(start_point, goal_point, clearance)
 
-  #print('The final path is:', final_path)
+  final_path2.pop(-1)
+  final_path2.reverse()
+  
+  final_path = final_path1 + final_path2
+  print('The final path is:', final_path)
   
   # Plotting the explored nodes and final path
   points1x = []
@@ -49,33 +53,56 @@ def main():
   points3y = []
   points4x = []
   points4y = []
+  points5x = []
+  points5y = []
+  points6x = []
+  points6y = []
+  points7x = []
+  points7y = []
+  points8x = []
+  points8y = []
+  
   for point in explored1.keys():
     points1x.append(point[0])
     points1y.append(point[1])
     points2x.append(explored1[point][0]-point[0])
     points2y.append(explored1[point][1]-point[1])
-    
+  
   for point in explored2.keys():
     points3x.append(point[0])
     points3y.append(point[1])
     points4x.append(explored2[point][0]-point[0])
     points4y.append(explored2[point][1]-point[1])
-  """  
+ 
+  
   for point in range(len(final_path)):
     if point+1 < len(final_path):
-      points3x.append(final_path[point][0])
-      points3y.append((final_path[point][1]))
-      points4x.append((final_path[point+1][0])-(final_path[point][0]))
-      points4y.append((final_path[point+1][1])-(final_path[point][1]))
+      points5x.append(final_path[point][0])
+      points5y.append((final_path[point][1]))
+      points6x.append((final_path[point+1][0])-(final_path[point][0]))
+      points6y.append((final_path[point+1][1])-(final_path[point][1]))
     else:
-      points3x.append(final_path[point][0])
-      points3y.append((final_path[point][1]))
-      points4x.append((final_path[-1][0])-(final_path[point][0]))
-      points4y.append((final_path[-1][1])-(final_path[point][1]))
+      points5x.append(final_path[point][0])
+      points5y.append((final_path[point][1]))
+      points6x.append((final_path[-1][0])-(final_path[point][0]))
+      points6y.append((final_path[-1][1])-(final_path[point][1]))
+  """
+  for point in range(len(final_path2)):
+    if point+1 < len(final_path2):
+      points7x.append(final_path2[point][0])
+      points7y.append((final_path2[point][1]))
+      points8x.append((final_path2[point+1][0])-(final_path2[point][0]))
+      points8y.append((final_path2[point+1][1])-(final_path2[point][1]))
+    else:
+      points7x.append(final_path2[point][0])
+      points7y.append((final_path2[point][1]))
+      points8x.append((final_path2[-1][0])-(final_path2[point][0]))
+      points8y.append((final_path2[-1][1])-(final_path2[point][1]))
   """
   plt.quiver(np.array(points1x), np.array(points1y), np.array(points2x), np.array(points2y), units='xy' ,scale=1, label = 'Explored nodes', color = 'g', width =0.02, headwidth = 1,headlength=0)
   plt.quiver(np.array(points3x), np.array(points3y), np.array(points4x), np.array(points4y), units='xy' ,scale=1, label = 'Explored nodes', color = 'g', width =0.02, headwidth = 1,headlength=0)
-  #plt.quiver(np.array(points3x), np.array(points3y), np.array(points4x), np.array(points4y), units='xy' ,scale=1, label = 'Final Path', width =0.07, headwidth = 1,headlength=0)  
+  plt.quiver(np.array(points5x), np.array(points5y), np.array(points6x), np.array(points6y), units='xy' ,scale=1, label = 'Final Path', width =0.07, headwidth = 1,headlength=0)  
+  #plt.quiver(np.array(points7x), np.array(points7y), np.array(points8x), np.array(points8y), units='xy' ,scale=1, label = 'Final Path', width =0.07, headwidth = 1,headlength=0)  
   
   plt.show()
   plt.close()
