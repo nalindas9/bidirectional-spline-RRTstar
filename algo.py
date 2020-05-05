@@ -14,7 +14,8 @@ import numpy as np
 XDIM = 10
 YDIM = 10
 EPSILON = 0.2
-NUMNODES = 1800
+NUMNODES = 5000
+RADIUS = 0.5
 plusminus = [1,-1]
 
 explored_nodes1 = dict()
@@ -22,7 +23,7 @@ explored_nodes2 = dict()
 
 # Function to generate index given a node
 def index(node):
-  return (node[0], node[1], node[2])
+  return (node[0], node[1], node[2], node[3])
 
 # Function to find the path
 def back_track1(node_ind, start_node):
@@ -32,6 +33,7 @@ def back_track1(node_ind, start_node):
       parent = explored_nodes1[node_ind]
       path.insert(0, parent)
       node_ind = parent
+      #print('Node1:', node_ind)
     #print('The path is:', path)
     print('Backtracking complete.')
     return path
@@ -43,6 +45,7 @@ def back_track2(node_ind, start_node):
       parent = explored_nodes2[node_ind]
       path.insert(0, parent)
       node_ind = parent
+      #print('Node2:', node_ind)
     #print('The path is:', path)
     print('Backtracking complete.')
     return path
@@ -52,12 +55,13 @@ def dist(p1,p2):
   return math.sqrt((p1[0]-p2[0])**2+(p1[1]-p2[1])**2)
 
 # Function to find the point b/w the random point and the nearest node in the tree
-def interpolate(p1,p2):
+def interpolate(p1,p2, cost2come1):
   if dist(p1,p2) < EPSILON:
-    return p2
+    return p2[0], p2[1], 0, cost2come1
   else:
     theta = math.atan2(p2[1]-p1[1], p2[0]-p1[0])
-    return p1[0] + EPSILON*math.cos(theta), p1[1] + EPSILON*math.sin(theta)  
+    cost2come1 = cost2come1 + dist(p1, (p1[0] + EPSILON*math.cos(theta), p1[1] + EPSILON*math.sin(theta)))
+    return p1[0] + EPSILON*math.cos(theta), p1[1] + EPSILON*math.sin(theta), 0, cost2come1  
 
 # Function to check if two points can be joined without collision
 def valid_joint(p1,p2, clearance):
@@ -69,18 +73,35 @@ def valid_joint(p1,p2, clearance):
     points.append(inter_point)
     if not utils.check_node(inter_point, clearance): 
       return False
-  print('Points', points)
+  #print('Points', points)
   return True
   
+# Function to choose the parent of the new node which minimizes the total cost
+def choose_parent(nearest_node, new_node, nodes):
+  nearest_node = list(nearest_node)
+  new_node = list(new_node)
+  for p in nodes:
+    if dist(p, new_node) < RADIUS and p[3]+dist(p, new_node) < nearest_node[3]+dist(nearest_node, new_node):
+      nearest_node = p
+  new_node[3] = nearest_node[3] + dist(nearest_node, new_node)
+  new_parent = nearest_node
+  new_parent = tuple(new_parent)
+  new_node = tuple(new_node)
+  return new_node, new_parent
+ 
 # Function to implement rrt algo
 # Args: (start point, goal point)
 def rrt(start, goal, clearance):
+  cost2come1 = 0
   nodes1 = []
+  start.append(cost2come1)
   start1 = tuple(start)
   explored_nodes1[start1] = start1
   nodes1.append(start1)
   
+  cost2come2 = 0
   nodes2 = []
+  goal.append(cost2come2)
   start2 = tuple(goal)
   explored_nodes2[start2] = start2
   nodes2.append(start2)
@@ -95,7 +116,10 @@ def rrt(start, goal, clearance):
     for p1 in nodes1:
       if dist(p1, rand1) < dist(nearest_node1, rand1):
         nearest_node1 = p1
-    new_node1 = interpolate(nearest_node1, rand1)
+    new_node1 = interpolate(nearest_node1, rand1, nearest_node1[3])
+    #print('New Node1:', new_node1)
+    #print('New node:', new_node1)
+    new_node1, nearest_node1 = choose_parent(nearest_node1, new_node1, nodes1)
     if utils.check_node(new_node1, clearance):
       explored_nodes1[new_node1] = nearest_node1
       nodes1.append(new_node1)
@@ -121,7 +145,9 @@ def rrt(start, goal, clearance):
       for p2 in nodes2:
         if dist(p2, rand2) < dist(nearest_node2, rand2):
           nearest_node2 = p2
-      new_node2 = interpolate(nearest_node2, rand2)
+      new_node2 = interpolate(nearest_node2, rand2, nearest_node2[3])
+      #print('New Node2:', new_node2)
+      new_node2, nearest_node2 = choose_parent(nearest_node2, new_node2, nodes2)
       if utils.check_node(new_node2, clearance):
         explored_nodes2[new_node2] = nearest_node2
         nodes2.append(new_node2)
@@ -137,22 +163,6 @@ def rrt(start, goal, clearance):
       final_path1 = back_track1(nearest_node3, start1)
       final_path2 = back_track2(nearest_node3, start2)
       return explored_nodes1, explored_nodes2, final_path1, final_path2
-    """
-    # Check if the new node from tree 2 can be joined to tree 1 
-    nearest_node4 = nodes1[0]   
-    for p in nodes1:
-      if dist(p, new_node2) < dist(nearest_node4, new_node2):
-        nearest_node4 = p 
-    if valid_joint(new_node2,nearest_node4, clearance):
-      print('Joint from tree 2 to tree 1 found!!')
-      explored_nodes[nearest_node4] = new_node2
-      return explored_nodes
-    """  
-    """
-    if ((new_node1[0] - goal[0]) ** 2 + (new_node1[1] - goal[1]) ** 2) <= 0.25 ** 2:
-      print('Found the goal!!!')
-      final_path = back_track(new_node1, start)
-    """
   return explored_nodes1, explored_nodes2
       
           
