@@ -12,7 +12,7 @@ import algo
 import matplotlib.pyplot as plt
 import numpy as np
 import utils
-
+import copy
 
 def main():
   # Taking inputs from the user
@@ -41,11 +41,15 @@ def main():
 
   final_path2.pop(-1)
   final_path2.reverse()
-  
+  final_path1_spline = copy.deepcopy(final_path1)
+  final_path1_spline.pop(-1)
+  utils.cubic_spline(final_path1_spline)
+  utils.cubic_spline(final_path2)
   final_path = final_path1 + final_path2
+  
   print('The final path is:', final_path)
   
-  utils.cubic_spline(final_path)
+  
   
   # Plotting the explored nodes and final path
   points1x = []

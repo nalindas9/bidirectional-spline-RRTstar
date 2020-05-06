@@ -50,7 +50,7 @@ def check_node(node, clearance):
 def cubic_spline(points):
   x_pts = [x[0] for x in points]
   y_pts = [x[1] for x in points]
-  ds = 0.1
+  ds = 0.01
   sp = spline.Spline2D(x_pts, y_pts)
   s = np.arange(0, sp.s[-1], ds)
   rx, ry, ryaw, rk = [], [], [], []
