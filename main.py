@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import utils
 
+
 def main():
   # Taking inputs from the user
   clearance = eval(input('Please enter the clearance value of the robot from the obstacle:'))
@@ -43,6 +44,8 @@ def main():
   
   final_path = final_path1 + final_path2
   print('The final path is:', final_path)
+  
+  utils.cubic_spline(final_path)
   
   # Plotting the explored nodes and final path
   points1x = []

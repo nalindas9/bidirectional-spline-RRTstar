@@ -1,6 +1,9 @@
 """
 Utility Functions
 
+Reference: Spline module taken from Author: Atsushi Sakai(@Atsushi_twi)
+(https://github.com/AtsushiSakai/PythonRobotics/blob/master/PathPlanning/CubicSpline/cubic_spline_planner.py)
+
 Authors:
 Nalin Das (nalindas9@gmail.com)
 Graduate Student pursuing Masters in Robotics,
@@ -8,7 +11,9 @@ University of Maryland, College Park
 """
 import numpy as np
 import math
-
+from scipy import interpolate
+import spline
+import matplotlib.pyplot as plt
 
 # Function to check if the given point lies outside the final map or in the obstacle space
 def check_node(node, clearance):
@@ -41,4 +46,23 @@ def check_node(node, clearance):
     return False
   else:
     return True   
+
+def cubic_spline(points):
+  x_pts = [x[0] for x in points]
+  y_pts = [x[1] for x in points]
+  ds = 0.1
+  sp = spline.Spline2D(x_pts, y_pts)
+  s = np.arange(0, sp.s[-1], ds)
+  rx, ry, ryaw, rk = [], [], [], []
+  for i_s in s:
+    ix, iy = sp.calc_position(i_s)
+    rx.append(ix)
+    ry.append(iy)
+    ryaw.append(sp.calc_yaw(i_s))
+    rk.append(sp.calc_curvature(i_s))
+  plt.plot(x_pts, y_pts, "xb", label="input")
+  plt.plot(rx, ry, "-r", label="spline")
+  
+    
+  
   
