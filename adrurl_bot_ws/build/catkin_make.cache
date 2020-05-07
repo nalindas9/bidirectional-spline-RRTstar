@@ -1,0 +1,2 @@
+shady_description:shady_examples:shady_gazebo
+-DCATKIN_DEVEL_PREFIX=/home/nalindas9/Documents/courses/spring_2020/enpm661-planning/github/bidirectional-spline-RRTstar/adrurl_bot_ws/devel -DCMAKE_INSTALL_PREFIX=/home/nalindas9/Documents/courses/spring_2020/enpm661-planning/github/bidirectional-spline-RRTstar/adrurl_bot_ws/install -G Unix Makefiles

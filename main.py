@@ -43,12 +43,11 @@ def main():
   final_path2.reverse()
   final_path1_spline = copy.deepcopy(final_path1)
   final_path1_spline.pop(-1)
-  utils.cubic_spline(final_path1_spline)
-  utils.cubic_spline(final_path2)
+  spline_pts1 = utils.cubic_spline(final_path1_spline)
+  spline_pts2 = utils.cubic_spline(final_path2)
   final_path = final_path1 + final_path2
-  
-  print('The final path is:', final_path)
-  
+  final_spline_path = spline_pts1 + spline_pts2
+  print('The final path is:', final_spline_path)
   
   
   # Plotting the explored nodes and final path

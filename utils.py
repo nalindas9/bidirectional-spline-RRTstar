@@ -62,7 +62,7 @@ def cubic_spline(points):
     rk.append(sp.calc_curvature(i_s))
   plt.plot(x_pts, y_pts, "xb", label="input")
   plt.plot(rx, ry, "-r", label="spline")
-  
-    
+  spline_pts = tuple(zip(rx,ry))
+  return spline_pts   
   
   

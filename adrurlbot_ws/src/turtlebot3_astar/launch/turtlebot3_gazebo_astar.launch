@@ -1,0 +1,28 @@
+<launch>
+  
+  <arg name="model" default="burger" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="x_pos" default="-4.0"/>
+  <arg name="y_pos" default="-4.0"/>
+  <arg name="z_pos" default="0.0"/>
+  <arg name="roll" default="0.0"/>
+  <arg name="pitch" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
+  
+  <node name = "main" pkg= "turtlebot3_astar" type = "main.py" output = "screen" />
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+
+	<arg name="world_name"
+		value="$(find turtlebot3_astar)/worlds/map.world"/>
+		<arg name="paused" default="false"/>
+		<arg name="use_sim_time" default="true"/>
+		<arg name="gui" default="true"/>
+		<arg name="headless" default="false"/>
+		<arg name="debug" default="false"/>
+	</include>
+
+	<!-- Spawn Turtlebot 3 into Gazebo -->
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro" />
+
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf"  args="-urdf -model turtlebot3_$(arg model) -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -param robot_description" />
+  
+</launch>

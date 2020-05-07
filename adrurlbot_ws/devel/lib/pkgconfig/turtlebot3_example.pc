@@ -1,0 +1,8 @@
+prefix=/home/nalindas9/Documents/courses/spring_2020/enpm661-planning/github/bidirectional-spline-RRTstar/adrurlbot_ws/devel
+
+Name: turtlebot3_example
+Description: Description of turtlebot3_example
+Version: 1.2.3
+Cflags: -I/home/nalindas9/Documents/courses/spring_2020/enpm661-planning/github/bidirectional-spline-RRTstar/adrurlbot_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: rospy actionlib interactive_markers std_msgs sensor_msgs geometry_msgs nav_msgs visualization_msgs actionlib_msgs turtlebot3_msgs message_runtime
