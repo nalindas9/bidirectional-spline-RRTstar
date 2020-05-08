@@ -1,8 +1,0 @@
-prefix=/home/nalindas9/Documents/courses/spring_2020/enpm661-planning/github/bidirectional-spline-RRTstar/adrurl_bot_ws/devel
-
-Name: shady_gazebo
-Description: Description of shady_gazebo
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
