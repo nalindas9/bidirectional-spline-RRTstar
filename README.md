@@ -1,5 +1,8 @@
 # bidirectional-spline-RRTstar
-This is the repository for the project - Implementation of Bidirectional Spline RRT* for a Non-holonomic Mobile Robot
+[![License:MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/nalindas9/bidirectional-spline-RRTstar/blob/master/LICENSE)
+
+## About
+This is the repository for the project - Implementation of Bidirectional Spline RRT* for a Non-holonomic Mobile Robot. Implemented the Bidirectional Spline RRT* for path Planning for the Turtlebot3 robot. Though on the application of spline-based smoothing the path length increases fractionally, the smoothened trajectory is much more feasible for the robot to follow.
 
 ## 2D Obstacle Space
 
